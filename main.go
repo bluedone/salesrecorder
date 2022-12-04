@@ -25,7 +25,7 @@ func main() {
 	itemRoutes.Use()
 	{
 		itemRoutes.GET("all", service.GetItems)
-		itemRoutes.POST("user", service.GetItemsByUser)
+		itemRoutes.GET("user", service.GetItemsByUser)
 		itemRoutes.POST("create", service.CreateItem)
 	}
 	userRoutes := router.Group("api/user")

@@ -19,4 +19,6 @@ var (
 	postgresPORT, _err = strconv.Atoi(os.Getenv("POSTGRES_PORT"))
 	DatabaseURL        = fmt.Sprintf("postgresql://%v:%v@%v:%v/%v", postgresUSER, postgresPASSWORD, postgresHOST, postgresPORT, postgresDB)
 	PsqlInfo           = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", postgresHOST, postgresPORT, postgresUSER, postgresPASSWORD, postgresDB)
+	AdminUser          = os.Getenv("ADMIN_USER")
+	AdminPassword      = os.Getenv("ADMIN_PASSWORD")
 )

@@ -3,7 +3,6 @@ package service
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	DBEngine "sr-server/database"
 
@@ -11,8 +10,10 @@ import (
 )
 
 type Item = DBEngine.Item
+type AccessToken = DBEngine.AccessToken
 
 func GetItems(c *gin.Context) {
+	AdminAuth(c)
 	db := DBEngine.CreateConnection()
 	defer db.Close()
 	var items []Item
@@ -37,13 +38,11 @@ func GetItems(c *gin.Context) {
 }
 
 func GetItemsByUser(c *gin.Context) {
-
-	user_id, err := strconv.Atoi(c.Param("id"))
+	user_id := GetHeaderAuth(c)
 	db := DBEngine.CreateConnection()
 	defer db.Close()
 	var items []Item
 	sqlStatement := `SELECT * FROM item WHERE user_id = ($1) `
-
 	rows, err := db.Query(sqlStatement, user_id)
 
 	if err != nil {
@@ -64,6 +63,7 @@ func GetItemsByUser(c *gin.Context) {
 }
 
 func CreateItem(c *gin.Context) {
+	AdminAuth(c)
 	var item Item
 
 	if err := c.BindJSON(&item); err != nil {

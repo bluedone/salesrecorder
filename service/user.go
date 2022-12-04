@@ -17,6 +17,7 @@ type User = DBEngine.User
 type Token = DBEngine.AccessToken
 
 func CreateUser(c *gin.Context) {
+	AdminAuth(c)
 	var user User
 
 	if err := c.BindJSON(&user); err != nil {
@@ -92,9 +93,10 @@ func GenerateSecureToken(db *sql.DB, user_id int) string {
 
 func GetUserFromToken(token string) int {
 	var access Token
+
 	db := DBEngine.CreateConnection()
 	defer db.Close()
-	sqlStatement := `SELECT * FROM "acccess_token" WHERE "token" = ($1)`
+	sqlStatement := `SELECT * FROM "access_token" WHERE "token" = ($1)`
 
 	err := db.QueryRow(sqlStatement, token).Scan(&access.ID, &access.UserID, &access.Token)
 	if err != nil {
