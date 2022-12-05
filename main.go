@@ -19,6 +19,7 @@ func main() {
 	saleRoutes := router.Group("api/sale")
 	{
 		saleRoutes.GET("get-sales", service.GetSaleItems)
+		saleRoutes.POST("add-sale", service.AddSale)
 
 	}
 	itemRoutes := router.Group("api/item")
